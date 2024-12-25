@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Overflow Dashboard</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+<div th:replace="fragments.html :: header"></div>
+<div class="container">
+    <div th:replace="fragments.html :: side"></div>
+    <main>
+
+        <div class="text-content">
+            <h1>Welcome to Stack Overflow, <span th:text="${user != null ? user.username : 'Guest'}">Username</span>
+                !</h1>
+            <p>Find answers to your technical questions and help others answer theirs.</p>
+        </div>
+        <section class="posts">
+            <h2>Interesting Questions for you</h2>
+            <div class="post" th:each="question:${questions}">
+                <div class="votes">
+                    <span th:text="${question.upvotes}+${question.downvotes}+' votes'"></span>
+                    <span th:text="${#lists.size(question.answers)}+' answers'"></span>
+                </div>
+                <div class="content">
+                    <a th:href="@{/questions/{id}(id=${question.id})}" th:text="${question.title}">hi</a>
+                    <p th:utext="${question.description}">hello</p>
+                    <div class="tags">
+                        <span th:each="tag : ${question.tags}" th:text="${tag.name}"></span>
+                    </div>
+                   <p class="author" th:text="'Asked by ' + ${question.user.username}"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <aside class="widgets">
+        <form th:action="@{/questions/ask}" >
+            <a th:href="@{/questions/ask}" class="main-button">Ask Questions</a>
+        </form>
+    </aside>
+</div>
+<div th:replace="fragments.html :: footer"></div>
+</body>
+</html>

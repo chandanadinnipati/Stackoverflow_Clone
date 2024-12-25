@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion</title>
+    <link rel="stylesheet" href="/css/discussion.css">
+</head>
+<body>
+<div th:replace="fragments.html :: header"></div>
+<div class="container">
+    <div th:replace="fragments.html :: side"></div>
+
+    <main>
+
+        <div class="text-content">
+            <h1>Discussions</h1>
+            <select>
+                <option>sort</option>
+                <option>latest</option>
+                <option>old</option>
+            </select>
+            <select>
+                <option>filter</option>
+            </select>
+        </div>
+        <section class="posts">
+            <div class="post" th:each="discussion:${discussions}">
+                <div class="votes">
+                    <span th:text="${discussion.upvotes}+' votes'"> votes</span>
+                    <span>0 answers</span>
+                </div>
+                <div class="content">
+                    <a href="#" th:text="${discussion.title}"></a>
+                    <p th:text="${discussion.description}">Attempting RecyclerView paging...</p>
+                    <div class="tags">
+                        <span th:each="tag:${discussion.discussionTags}" th:text="${tag.name}"></span>
+                    </div>
+                    <p class="author" th:text="'Asked by ' + ${discussion.user.username}"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <aside class="widgets">
+        <form th:action="@{discussion/create}" method="get">
+        <input type="submit" value="Start Discussion" class="main-button">
+        </form>
+        <h2>Discussions Guidelines</h2>
+        <ul style="list-style-type:circle;">
+            <li>Share perspectives, advice, and insights.</li>
+            <li>Be welcoming and patient.</li>
+            <li>No resume or job listings.</li>
+            <li>Avoid self-promotion.</li>
+        </ul>
+    </aside>
+</div>
+<div th:replace="fragments.html :: footer"></div>
+</body>
+</html>

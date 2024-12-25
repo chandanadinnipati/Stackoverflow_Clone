@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/user-comments.css">
+
+  <title>User Comments</title>
+</head>
+<body>
+<div class="container">
+  <h1>Comments by <span th:text="${user.username}">User Name</span></h1>
+  <ul>
+    <li th:each="comment : ${comments}">
+      <p th:text="${comment.content}">Comment content</p>
+    </li>
+  </ul>
+  <a th:href="@{/users/profile/{userId}(userId=${user.id})}" class="btn">Back to Profile</a>
+</div>
+</body>
+</html>

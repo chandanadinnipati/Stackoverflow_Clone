@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question</title>
+    <link rel="stylesheet" href="/css/create.css">
+
+    <!-- Load TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/gaau6m0a748v2n5gqlr64cznmvy5oqj7bav1d68jn1114pyz/tinymce/6/tinymce.min.js"
+            referrerpolicy="origin"></script>
+    <script src="/js/editor.js" defer></script>
+    <script src="/js/reputationCheck.js" defer></script>
+</head>
+<body>
+<main class="question-main">
+    <section class="question-header">
+        <h4 th:text="${questionRequestDTO.id == null ? 'Ask a Public Question' : 'Edit Your Question'}">
+            Ask a Public Question
+        </h4>
+    </section>
+
+    <section class="question-form-section">
+        <form th:action="${(questionRequestDTO.id)== null ? '/questions/create' : '/questions/update/' + questionRequestDTO.id}"
+              method="post" th:object="${questionRequestDTO}" class="upvoteForm">
+            <div class="input-title">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" th:field="*{title}" required
+                       placeholder="Enter question title">
+            </div>
+
+            <div class="input-body">
+                <label for="body">What are the details of your problem?</label>
+                <textarea id="body" name="description" th:field="*{description}" placeholder="Describe your question here"></textarea>
+            </div>
+            <input type="hidden" class="reputationInput" th:value="${user.reputation}">
+            <div class="input-tags">
+                <label for="tags">Tags (comma-separated)</label>
+                <input type="text" id="tags" name="tagsList" th:field="*{tagsList}"
+                       placeholder="e.g., java, spring, thymeleaf">
+            </div>
+            <div class="input-title" th:if="${questionRequestDTO.id}==null">
+                <label for="bounties">Bounties(optional)</label>
+                <input type="text" id="bounties" name="bounties" th:field="*{bounties}"
+                       placeholder="Enter bounties..." class="minReputationInput">
+            </div>
+            <button type="submit"
+                    th:text="${questionRequestDTO.id == null ? 'Post Question' : 'Update Question'}">
+                Post Question
+            </button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Your Website Name. All Rights Reserved.</p>
+</footer>
+</body>
+</html>
